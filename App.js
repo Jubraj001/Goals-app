@@ -9,6 +9,12 @@ export default function App() {
     setGoals(currentGoals=>[...currentGoals,
       {text, key: Math.random().toString()}]); //Best practice way of updating state
   }
+
+  function deleteGoalHandler(key){
+    setGoals(currentGoals=>{
+      return currentGoals.filter((goal)=>goal.key!==key);
+    })
+  }
   return (
     <View style={styles.appContainer}>
       <GoalInput onAddGoal={addGoalHandler}/>
@@ -16,7 +22,10 @@ export default function App() {
         <FlatList
         data={goals}
         renderItem={(itemData)=>{
-          return <GoalItem text={itemData.item.text}/>        
+          return <GoalItem 
+          text={itemData.item.text} 
+          id={itemData.item.key}
+          onDeleteItem={deleteGoalHandler}/>        
         }}
         />
       </View>

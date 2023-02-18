@@ -5,7 +5,6 @@ export default function GoalInput(props) {
 
   function goalInputHandler(enteredText) {
     setText(enteredText);
-    // setText("");
     }
 
   return (
