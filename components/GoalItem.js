@@ -16,7 +16,6 @@ export default function GoalItem(props) {
 const styles = StyleSheet.create({
     goalItem:{
         margin:8,
-        padding:8,
         borderRadius:6,
         backgroundColor:"#5e0acc",
         color:'white'
@@ -25,6 +24,7 @@ const styles = StyleSheet.create({
         opacity:0.5
       },
       goalText:{
+        padding:8,
         color:"white"
       }
 });

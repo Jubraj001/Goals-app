@@ -1,23 +1,40 @@
 import { useState } from "react";
-import { Button, StyleSheet, TextInput, View, FlatList } from "react-native";
+import { Button, StyleSheet, View, FlatList } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
 import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
 export default function App() {
+  const [modal, setModal]= useState(false);
   const[goals,setGoals]=useState([]);
+
+  function startAddGoalHandler(){
+    setModal(true);
+  }
+  function endAddGoalHandler(){
+    setModal(false);
+  }
   function addGoalHandler(text) {
     setGoals(currentGoals=>[...currentGoals,
       {text, key: Math.random().toString()}]); //Best practice way of updating state
+
+      endAddGoalHandler(); //WIll close the modal as soon as the goal is added
   }
 
   function deleteGoalHandler(key){
     setGoals(currentGoals=>{
-      return currentGoals.filter((goal)=>goal.key!==key);
+      return currentGoals.filter((goal)=>goal.key!==key); //filters all the goal and displays all goals leaving the one that needs to be deleted
     })
   }
   return (
+    <>
+    <StatusBar style='light'/>
     <View style={styles.appContainer}>
-      <GoalInput onAddGoal={addGoalHandler}/>
+      <Button 
+      title="Add New Goal" 
+      color="#a065ec"
+      onPress={startAddGoalHandler}/>
+      {modal && <GoalInput visible={modal} onCancel={endAddGoalHandler} onAddGoal={addGoalHandler}/>}
       <View style={styles.goalsContainer}>
         <FlatList
         data={goals}
@@ -30,6 +47,7 @@ export default function App() {
         />
       </View>
     </View>
+    </>
   );
 }
 
@@ -38,6 +56,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 50,
     paddingHorizontal: 16,
+    // backgroundColor:'#1e085a'
   },
   goalsContainer: {
     flex: 5,
